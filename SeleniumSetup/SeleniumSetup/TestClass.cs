@@ -29,21 +29,17 @@ namespace SeleniumSetup
         [Test]
         public void EnterPasswordAndSubmit_SuccessToHomepage()
         {
-            // Driver finds Sign In Link on Finance Portfolio Page
-            driver.FindElement(By.XPath(".//*[@title='Sign In']")).Click();
-
             // Driver finds login textbox, enters username, and presses enter
-            driver.FindElement(By.XPath(".//*[@id='login-username']")).SendKeys("avengersassembull" + Keys.Enter);
+            driver.FindElement(By.Id("login-username")).SendKeys("avengersassembull" + Keys.Enter);
 
             // Driver waits for browser to load password page
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
 
-            // Driver finds password textbox, enters password, and presses enter
-            IWebElement passwordTextField = wait.Until(driver => driver.FindElement(By.Id("login-passwd")));
-            passwordTextField.SendKeys("Ready2rock" + Keys.Enter);
+            // Driver finds password textbox, enters password, and presses enter 
+            driver.FindElement(By.Id("login-passwd")).SendKeys("Ready2rock" + Keys.Enter);
 
             //wait.Until(d => driver.FindElement(By.TagName("tbody")));
-
+            
         }
     }
 }

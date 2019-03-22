@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support;
 
 namespace SeleniumSetup.BaseTest
 {
@@ -16,9 +17,14 @@ namespace SeleniumSetup.BaseTest
         [SetUp]
         public void Open()
         {
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            driver.Url = "https://login.yahoo.com/";
+            ChromeOptions options = new ChromeOptions();
+            options.AddArguments("start-maximized");
+
+            // Instantiate driver object that goes to specified url
+            driver = new ChromeDriver(options);
+
+            driver.Navigate().GoToUrl("https://login.yahoo.com/");
+               
         }
 
         [TearDown]
