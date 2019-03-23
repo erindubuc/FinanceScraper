@@ -26,6 +26,8 @@ namespace Scraper
             // Driver finds password textbox, enters password, and presses enter 
             driver.FindElement(By.Id("login-passwd")).SendKeys("Ready2rock" + Keys.Enter);
 
+            // Driver navigates to Finance page/portfolio
+            driver.Navigate().GoToUrl("https://finance.yahoo.com/portfolio/p_2/view/view_1");
 
             Console.WriteLine("Signing in");
             Console.ReadLine();
