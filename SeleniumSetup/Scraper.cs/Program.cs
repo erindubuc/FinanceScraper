@@ -3,6 +3,8 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Scraper
 {
@@ -29,7 +31,27 @@ namespace Scraper
             // Driver navigates to Finance page/portfolio
             driver.Navigate().GoToUrl("https://finance.yahoo.com/portfolio/p_2/view/view_1");
 
-            Console.WriteLine("Signing in");
+            // Find table
+            driver.FindElement(By.TagName("tbody"));
+            Console.WriteLine("Table found");
+
+            // Get rows from table and store in List
+            List<IWebElement> tableRows = new List<IWebElement> (driver.FindElements(By.TagName("tr")));
+            
+
+            //foreach (var row in tableRows)
+            //    Console.WriteLine(tableRows);
+
+            List<IWebElement> stockInfo = new List<IWebElement>(driver.FindElements(By.TagName("td")));
+
+            foreach (var item in stockInfo)
+            {
+                Console.WriteLine(" " + item.Text + "\t\t");
+            }
+
+
+            //Console.WriteLine("Signing in");
+            driver.Quit();
             Console.ReadLine();
 
         }
