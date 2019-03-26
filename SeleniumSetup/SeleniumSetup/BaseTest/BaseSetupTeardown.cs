@@ -12,25 +12,25 @@ namespace SeleniumSetup.BaseTest
 {
     public class BaseSetupTeardown
     {
-        public IWebDriver driver;
+        //public IWebDriver driver;
 
-        [SetUp]
-        public void Open()
-        {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments("start-maximized");
+        //[SetUp]
+        //public void Open()
+        //{
+        //    ChromeOptions options = new ChromeOptions();
+        //    options.AddArguments("start-maximized");
 
-            // Instantiate driver object that goes to specified url
-            driver = new ChromeDriver(options);
+        //    // Instantiate driver object that goes to specified url
+        //    driver = new ChromeDriver(options);
 
-            driver.Navigate().GoToUrl("https://login.yahoo.com/");
+        //    driver.Navigate().GoToUrl("https://login.yahoo.com/");
                
-        }
+        //}
 
-        [TearDown]
-        public void Close()
-        {
-            driver.Quit();
-        }
+        //[TearDown]
+        //public void Close()
+        //{
+        //    driver.Quit();
+        //}
     }
 }
