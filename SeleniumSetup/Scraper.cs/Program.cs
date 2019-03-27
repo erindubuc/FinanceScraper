@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support;
 using OpenQA.Selenium.Support.UI;
+using System.Data.SqlClient;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Scraper
             WebDriver.DriverLoginToPortfolioAndGetData();
 
             WebDriver.DisplayStockInfoToConsole();
+
+            Database.OpenSqlConnection();
 
             Console.ReadLine();
 
