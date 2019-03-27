@@ -12,13 +12,10 @@ namespace Scraper
     {
         public static void Main(string[] args)
         {
-            WebDriver driver = new WebDriver("https://login.yahoo.com/");
-            
-            WebDriver.LogInToSite("avengersassembull", "Ready2rock");
+            WebDriver driver = new WebDriver();
+            User user = new User();
 
-            WebDriver.MoveToDifferentPage("https://finance.yahoo.com/portfolio/p_2/view/view_1");
-
-            WebDriver.GetCellDataForEachStock();
+            WebDriver.DriverLoginToPortfolioAndGetData();
 
             WebDriver.DisplayStockInfoToConsole();
 

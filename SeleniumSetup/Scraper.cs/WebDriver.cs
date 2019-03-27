@@ -9,46 +9,88 @@ using System.Collections.Generic;
 
 namespace Scraper
 {
-    public class WebDriver
+    public class WebDriver : User
     {
-        public ChromeOptions options;
         public static IWebDriver driver;
         public static List<IWebElement> stockInfo;
-
-        public WebDriver(string url)
+        public ChromeOptions options;
+      
+        public static List<IWebElement> DriverLoginToPortfolioAndGetData()
         {
-            options = new ChromeOptions();
-            options.AddArguments("start-maximized");
+            try
+            {
+                ChromeOptions options = new ChromeOptions();
+                options.AddArguments("start-maximized");
 
-            driver = new ChromeDriver(options);
-            driver.Navigate().GoToUrl(url);
-        }
+                // Instantiate driver object that goes to specified url
+                driver = new ChromeDriver(options);
 
-        public static void LogInToSite(string user, string password)
-        {
-            driver.FindElement(By.Id("login-username")).SendKeys(user + Keys.Enter);
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            driver.FindElement(By.Id("login-passwd")).SendKeys(password + Keys.Enter);
-        }
+                driver.Navigate().GoToUrl(LoginUrl1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("This URL can't be found." + e.Message);
+                driver.Quit();
+            }
 
-        public static void MoveToDifferentPage(string url)
-        {
-            driver.Navigate().GoToUrl(url);
-        }
+            try
+            {
+                // Driver finds login textbox, enters username, and presses enter
+                driver.FindElement(By.Id("login-username")).SendKeys(Username + Keys.Enter);
 
-        public static void FindTableBody()
-        {
-            driver.FindElement(By.TagName("tbody"));
-        }
+                // Driver waits for browser to load password page
+                driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
+            }
+            catch (NoSuchElementException e)
+            {
+                Console.WriteLine("Element can't be found." + e.Message);
+                throw (e);
 
-        public static void GetRowsFromStockTable()
-        {
-            driver.FindElements(By.TagName("tr"));
-        }
+            }
 
-        public static void GetCellDataForEachStock()
-        {
-            stockInfo = new List<IWebElement>(driver.FindElements(By.TagName("td")));
+            try
+            {
+                // Driver finds password textbox, enters password, and presses enter 
+                driver.FindElement(By.Id("login-passwd")).SendKeys(Password + Keys.Enter);
+            }
+            catch (NoSuchElementException e)
+            {
+                Console.WriteLine("Element can't be found." + e.Message);
+                throw (e);
+            }
+
+            try
+            {
+                driver.Navigate().GoToUrl(StockPortfolio);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Can't find this site." + e.Message);
+                throw (e);
+            }
+
+            try
+            {
+                driver.FindElements(By.TagName("tr"));
+            }
+            catch (NoSuchElementException e)
+            {
+                Console.WriteLine("Table rows can't be found." + e.Message);
+                throw e;
+            }
+
+            try
+            {
+                stockInfo = new List<IWebElement>(driver.FindElements(By.TagName("td")));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Could not find table data." + e.Message);
+                throw e;
+            }
+
+            return stockInfo;
+
         }
 
         public static void DisplayStockInfoToConsole()
