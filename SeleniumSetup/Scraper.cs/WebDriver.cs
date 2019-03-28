@@ -9,13 +9,15 @@ using System.Collections.Generic;
 
 namespace Scraper
 {
-    public class WebDriver : User
+    public class WebDriver : User 
     {
-        public static IWebDriver driver;
-        public static List<IWebElement> stockInfo;
         public ChromeOptions options;
-      
-        public static List<IWebElement> DriverLoginToPortfolioAndGetData()
+        public static IWebDriver driver;
+        public static List<IWebElement> tableRows;
+        public static ICollection<IWebElement> stockInfo; 
+
+
+        public static ICollection<IWebElement> DriverLoginToPortfolioAndGetData()
         {
             try
             {
@@ -29,7 +31,7 @@ namespace Scraper
             }
             catch (Exception e)
             {
-                Console.WriteLine("This URL can't be found." + e.Message);
+                Console.WriteLine("This URL can't be found. " + e.Message);
                 driver.Quit();
             }
 
@@ -43,9 +45,8 @@ namespace Scraper
             }
             catch (NoSuchElementException e)
             {
-                Console.WriteLine("Element can't be found." + e.Message);
+                Console.WriteLine("Element can't be found. " + e.Message);
                 throw (e);
-
             }
 
             try
@@ -55,7 +56,7 @@ namespace Scraper
             }
             catch (NoSuchElementException e)
             {
-                Console.WriteLine("Element can't be found." + e.Message);
+                Console.WriteLine("Element can't be found. " + e.Message);
                 throw (e);
             }
 
@@ -65,30 +66,45 @@ namespace Scraper
             }
             catch (Exception e)
             {
-                Console.WriteLine("Can't find this site." + e.Message);
+                Console.WriteLine("Can't find this site. " + e.Message);
                 throw (e);
             }
 
             try
             {
-                driver.FindElements(By.TagName("tr"));
+                tableRows = new List<IWebElement>(driver.FindElements(By.ClassName("simpTblRow")));
             }
             catch (NoSuchElementException e)
             {
-                Console.WriteLine("Table rows can't be found." + e.Message);
+                Console.WriteLine("Table rows can't be found. " + e.Message);
                 throw e;
             }
 
             try
             {
-                stockInfo = new List<IWebElement>(driver.FindElements(By.TagName("td")));
+                stockInfo = driver.FindElements(By.TagName("td"));
+
+                /*
+                var symbol = driver.FindElement(By.XPath("//td[@aria-label='Symbol']"));   
+                var percentChange = driver.FindElement(By.XPath("//td[@aria-label='Chg %']"));
+                var avgVolume = driver.FindElement(By.XPath("//td[@aria-label='Avg Vol (3m)']"));
+                var companyName = driver.FindElement(By.XPath("//td[@aria-label='Company Name']"));
+                var last = driver.FindElement(By.XPath("//td[@aria-label='Last Price']"));
+                var marketTime = driver.FindElement(By.XPath("//td[@aria-label='Market Time']"));
+                var open = driver.FindElement(By.XPath("//td[@aria-label='Open']"));
+                var high = driver.FindElement(By.XPath("//td[@aria-label='High']"));
+                var low = driver.FindElement(By.XPath("//td[@aria-label='Low']"));
+                var yearWeekHigh = driver.FindElement(By.XPath("//td[@aria-label='52-Wk High']"));
+                var yearWeekLow = driver.FindElement(By.XPath("//td[@aria-label='52-Wk Low']"));
+                */
             }
             catch (Exception e)
             {
-                Console.WriteLine("Could not find table data." + e.Message);
+                Console.WriteLine("Could not find table data. " + e.Message);
                 throw e;
             }
 
+            //driver.Quit();
             return stockInfo;
 
         }
@@ -99,7 +115,9 @@ namespace Scraper
             {
                 Console.WriteLine(" " + item.Text + "\t\t");
             }
+
         }
+
 
     }
 }

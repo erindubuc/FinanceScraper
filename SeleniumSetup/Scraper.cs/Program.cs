@@ -11,7 +11,7 @@ namespace Scraper
 {
     public class Program
     {
-        public static void Main(string[] args)
+        static void Main(string[] args)
         {
             WebDriver driver = new WebDriver();
             User user = new User();
