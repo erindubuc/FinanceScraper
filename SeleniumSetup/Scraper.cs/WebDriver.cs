@@ -6,6 +6,7 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scraper
 {
@@ -13,11 +14,10 @@ namespace Scraper
     {
         public ChromeOptions options;
         public static IWebDriver driver;
-        public static List<IWebElement> tableRows;
-        public static ICollection<IWebElement> stockInfo; 
-
-
-        public static ICollection<IWebElement> DriverLoginToPortfolioAndGetData()
+        public static ICollection<IWebElement> tableRows;
+        //public static List<Stock> stocksList;
+        
+        public static void DriverLoginToPortfolioAndGetStockData()
         {
             try
             {
@@ -72,7 +72,34 @@ namespace Scraper
 
             try
             {
-                tableRows = new List<IWebElement>(driver.FindElements(By.ClassName("simpTblRow")));
+                tableRows = driver.FindElements(By.ClassName("simpTblRow"));
+                int rowCount = tableRows.Count;
+                Console.WriteLine($"There are {rowCount} stocks");
+
+                //IList<Stock> stocksList = new List<Stock>();
+                for (int row = 1; row < tableRows.Count; row++)
+                {
+
+                    string symbol = driver.FindElement(By.XPath("//td[@aria-label='Symbol']")).Text;
+                    string percentChange = driver.FindElement(By.XPath("//td[@aria-label='Chg %']")).Text;
+                    string avgVolume = driver.FindElement(By.XPath("//td[@aria-label='Avg Vol (3m)']")).Text;
+                    string companyName = driver.FindElement(By.XPath("//td[@aria-label='Company Name']")).Text;
+                    string last = driver.FindElement(By.XPath("//td[@aria-label='Last Price']")).Text;
+                    string marketTime = driver.FindElement(By.XPath("//td[@aria-label='Market Time']")).Text;
+                    string open = driver.FindElement(By.XPath("//td[@aria-label='Open']")).Text;
+                    string high = driver.FindElement(By.XPath("//td[@aria-label='High']")).Text;
+                    string low = driver.FindElement(By.XPath("//td[@aria-label='Low']")).Text;
+                    string yearWeekHigh = driver.FindElement(By.XPath("//td[@aria-label='52-Wk High']")).Text;
+                    string yearWeekLow = driver.FindElement(By.XPath("//td[@aria-label='52-Wk Low']")).Text;
+
+                    Stock newStock = new Stock(symbol, percentChange, avgVolume, companyName, last,
+                        marketTime, open, high, low, yearWeekHigh, yearWeekLow);
+
+                    Database.AddStockInfoIntoDatabase(newStock);
+                    Console.WriteLine($"{newStock.CompanyName} added to database");
+                }
+                
+
             }
             catch (NoSuchElementException e)
             {
@@ -80,44 +107,47 @@ namespace Scraper
                 throw e;
             }
 
-            try
-            {
-                stockInfo = driver.FindElements(By.TagName("td"));
-
-                /*
-                var symbol = driver.FindElement(By.XPath("//td[@aria-label='Symbol']"));   
-                var percentChange = driver.FindElement(By.XPath("//td[@aria-label='Chg %']"));
-                var avgVolume = driver.FindElement(By.XPath("//td[@aria-label='Avg Vol (3m)']"));
-                var companyName = driver.FindElement(By.XPath("//td[@aria-label='Company Name']"));
-                var last = driver.FindElement(By.XPath("//td[@aria-label='Last Price']"));
-                var marketTime = driver.FindElement(By.XPath("//td[@aria-label='Market Time']"));
-                var open = driver.FindElement(By.XPath("//td[@aria-label='Open']"));
-                var high = driver.FindElement(By.XPath("//td[@aria-label='High']"));
-                var low = driver.FindElement(By.XPath("//td[@aria-label='Low']"));
-                var yearWeekHigh = driver.FindElement(By.XPath("//td[@aria-label='52-Wk High']"));
-                var yearWeekLow = driver.FindElement(By.XPath("//td[@aria-label='52-Wk Low']"));
-                */
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Could not find table data. " + e.Message);
-                throw e;
-            }
-
-            //driver.Quit();
-            return stockInfo;
-
         }
 
         public static void DisplayStockInfoToConsole()
         {
-            foreach (var item in stockInfo)
+            //foreach (var item in stockInfo)
+            foreach(var item in tableRows)
             {
                 Console.WriteLine(" " + item.Text + "\t\t");
+                //Console.WriteLine(" " + item + "\t\t");
             }
 
         }
 
+        /*
+        public static List<Stock> GetListOfStocksToSendToDB()
+        {
+            List<Stock> stocksList = new List<Stock>();
+
+            foreach (var row in tableRows)
+            {
+                string[] individualStockData = row.Text.Split(' ');
+
+                Stock newStock = new Stock(individualStockData[0], individualStockData[1], individualStockData[2], individualStockData[3], individualStockData[4],
+                    individualStockData[5], individualStockData[6], individualStockData[7], individualStockData[8], individualStockData[9], individualStockData[10]);
+               
+                stocksList.Add(newStock);
+                Console.WriteLine($"{newStock.Symbol} added to stock list");
+                
+                
+                Console.WriteLine($"{newStock.Symbol}");
+                Console.WriteLine($"{newStock.PercentChange}");
+                Console.WriteLine($"{newStock.AvgVolume}");
+                Console.WriteLine($"{newStock.CompanyName}");
+                        
+            }
+
+            return stocksList;
+            //Database.AddStockInfoIntoDatabase(stocksList);
+
+        }
+        */
 
     }
 }

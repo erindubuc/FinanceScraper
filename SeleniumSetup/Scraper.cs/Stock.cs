@@ -13,7 +13,7 @@ namespace Scraper
         public string AvgVolume { get; set; }
         public string CompanyName { get; set; }
         public string LastPrice { get; set; }
-        public DateTime MarketTime { get; set; }
+        public string MarketTime { get; set; }
         public string OpenPrice { get; set; }
         public string HighPrice { get; set; }
         public string LowPrice { get; set; }
@@ -23,7 +23,7 @@ namespace Scraper
 
 
         public Stock(string symbol, string percentChange, string avgVolume, string companyName,
-            string last, DateTime marketTime, string open, string high, string low,
+            string last, string marketTime, string open, string high, string low,
             string yearWeekHigh, string yearWeekLow)
         {
             this.Symbol = symbol;

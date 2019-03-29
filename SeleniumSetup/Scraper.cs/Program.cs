@@ -16,12 +16,14 @@ namespace Scraper
             WebDriver driver = new WebDriver();
             User user = new User();
 
-            WebDriver.DriverLoginToPortfolioAndGetData();
+            WebDriver.DriverLoginToPortfolioAndGetStockData();
 
             WebDriver.DisplayStockInfoToConsole();
 
-            Database.OpenSqlConnection();
-
+            //WebDriver.GetListOfStocksToSendToDB();
+           
+            //Database.OpenSqlConnection();
+            //Database.AddStockInfoIntoDatabase();
             Console.ReadLine();
 
         }
