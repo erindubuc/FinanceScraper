@@ -14,7 +14,7 @@ namespace Scraper
     {
         public ChromeOptions options;
         public static IWebDriver driver;
-        public static ICollection<IWebElement> tableRows;
+        public static IList<IWebElement> tableRows;
         //public static List<Stock> stocksList;
         
         public static void DriverLoginToPortfolioAndGetStockData()
@@ -76,8 +76,10 @@ namespace Scraper
                 int rowCount = tableRows.Count;
                 Console.WriteLine($"There are {rowCount} stocks");
 
-                //IList<Stock> stocksList = new List<Stock>();
-                for (int row = 1; row < tableRows.Count; row++)
+                //Stock newStock = new Stock();
+                
+                //for (var row = 0; row < rowCount; row++)
+                foreach (var row in tableRows)
                 {
 
                     string symbol = driver.FindElement(By.XPath("//td[@aria-label='Symbol']")).Text;
@@ -95,6 +97,7 @@ namespace Scraper
                     Stock newStock = new Stock(symbol, percentChange, avgVolume, companyName, last,
                         marketTime, open, high, low, yearWeekHigh, yearWeekLow);
 
+                   
                     Database.AddStockInfoIntoDatabase(newStock);
                     Console.WriteLine($"{newStock.CompanyName} added to database");
                 }

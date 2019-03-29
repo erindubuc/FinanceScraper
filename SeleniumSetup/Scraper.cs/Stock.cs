@@ -19,8 +19,11 @@ namespace Scraper
         public string LowPrice { get; set; }
         public string YearWeekHigh { get; set; }
         public string YearWeekLow { get; set; }
-        
 
+        public Stock()
+        {
+
+        }
 
         public Stock(string symbol, string percentChange, string avgVolume, string companyName,
             string last, string marketTime, string open, string high, string low,

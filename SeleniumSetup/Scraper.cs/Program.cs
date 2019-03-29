@@ -20,10 +20,7 @@ namespace Scraper
 
             WebDriver.DisplayStockInfoToConsole();
 
-            //WebDriver.GetListOfStocksToSendToDB();
-           
-            //Database.OpenSqlConnection();
-            //Database.AddStockInfoIntoDatabase();
+         
             Console.ReadLine();
 
         }
