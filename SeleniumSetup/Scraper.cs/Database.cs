@@ -32,10 +32,6 @@ namespace Scraper
                 + "Integrated Security=SSPI;";
         }
 
-        
-         
-        
-        
         public static void AddStockInfoIntoDatabase(Stock stock)
         {
             string connectionString = GetConnectionString();
@@ -43,8 +39,6 @@ namespace Scraper
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-
-
                 //Console.WriteLine("State: {0}", connection.State);
                 //Console.WriteLine("ConnectionString: {0}",
                 //    connection.ConnectionString);
@@ -52,13 +46,12 @@ namespace Scraper
                 try
                 {
                     using (SqlCommand command = new SqlCommand(
-                        "INSERT INTO StockInfo VALUES(@Symbol, @PercentChange, @AvgVolume, @CompanyName," +
+                        "INSERT INTO StockInfo VALUES(@Symbol, @PercentChange, @AvgVolume, " +
                         "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow)", connection))
                     {
                         command.Parameters.Add(new SqlParameter("Symbol", stock.Symbol));
                         command.Parameters.Add(new SqlParameter("PercentChange", stock.PercentChange));
                         command.Parameters.Add(new SqlParameter("AvgVolume", stock.AvgVolume));
-                        command.Parameters.Add(new SqlParameter("CompanyName", stock.CompanyName));
                         command.Parameters.Add(new SqlParameter("Last", stock.LastPrice));
                         command.Parameters.Add(new SqlParameter("MarketTime", stock.MarketTime));
                         command.Parameters.Add(new SqlParameter("Open", stock.OpenPrice));
@@ -69,6 +62,9 @@ namespace Scraper
                         command.ExecuteNonQuery();
                         Console.WriteLine($"{stock.Symbol} stock successfully added");
                     }
+
+                    Console.WriteLine("The database has been successfully updated.");
+                    connection.Close();
                 }
                 catch (Exception e)
                 {

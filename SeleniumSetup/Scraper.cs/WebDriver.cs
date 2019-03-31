@@ -14,10 +14,10 @@ namespace Scraper
     {
         public ChromeOptions options;
         public static IWebDriver driver;
-        public static IList<IWebElement> tableRows;
-        //public static List<Stock> stocksList;
-        
-        public static void DriverLoginToPortfolioAndGetStockData()
+        public static List<Stock> listOfAllStocks;
+
+
+        public static List<Stock> DriverLoginToPortfolioAndGetStockData()
         {
             try
             {
@@ -27,7 +27,7 @@ namespace Scraper
                 // Instantiate driver object that goes to specified url
                 driver = new ChromeDriver(options);
 
-                driver.Navigate().GoToUrl(LoginUrl1);
+                driver.Navigate().GoToUrl(LoginUrl);
             }
             catch (Exception e)
             {
@@ -59,6 +59,10 @@ namespace Scraper
                 Console.WriteLine("Element can't be found. " + e.Message);
                 throw (e);
             }
+            catch (TimeoutException ex)
+            {
+                Console.WriteLine("Timeout while entering password." + ex.Message);
+            }
 
             try
             {
@@ -72,37 +76,46 @@ namespace Scraper
 
             try
             {
-                tableRows = driver.FindElements(By.ClassName("simpTblRow"));
-                int rowCount = tableRows.Count;
-                Console.WriteLine($"There are {rowCount} stocks");
+                // Locate the stock table
+                IWebElement stockTable = driver.FindElement(By.TagName("tbody"));
 
-                //Stock newStock = new Stock();
-                
-                //for (var row = 0; row < rowCount; row++)
+                // Get all the rows 
+                IList<IWebElement> tableRows = new List<IWebElement>(stockTable.FindElements(By.ClassName("simpTblRow")));
+
+                listOfAllStocks = new List<Stock>();
+
                 foreach (var row in tableRows)
                 {
+                    string[] singleStockData = row.Text.Split(' ');
+                    string[] stockSymbolAndPercent = singleStockData[0].Split(new[] { "\r\n", "\r", "\n" },
+                            StringSplitOptions.None
+                        );
 
-                    string symbol = driver.FindElement(By.XPath("//td[@aria-label='Symbol']")).Text;
-                    string percentChange = driver.FindElement(By.XPath("//td[@aria-label='Chg %']")).Text;
-                    string avgVolume = driver.FindElement(By.XPath("//td[@aria-label='Avg Vol (3m)']")).Text;
-                    string companyName = driver.FindElement(By.XPath("//td[@aria-label='Company Name']")).Text;
-                    string last = driver.FindElement(By.XPath("//td[@aria-label='Last Price']")).Text;
-                    string marketTime = driver.FindElement(By.XPath("//td[@aria-label='Market Time']")).Text;
-                    string open = driver.FindElement(By.XPath("//td[@aria-label='Open']")).Text;
-                    string high = driver.FindElement(By.XPath("//td[@aria-label='High']")).Text;
-                    string low = driver.FindElement(By.XPath("//td[@aria-label='Low']")).Text;
-                    string yearWeekHigh = driver.FindElement(By.XPath("//td[@aria-label='52-Wk High']")).Text;
-                    string yearWeekLow = driver.FindElement(By.XPath("//td[@aria-label='52-Wk Low']")).Text;
+                    singleStockData[0] = stockSymbolAndPercent[0];
+                    //singleStockData[1] = stockSymbolAndPercent[1];
+                    Console.WriteLine($"index 0 = {stockSymbolAndPercent[0]}");
+                    Console.WriteLine($"index 1 = {stockSymbolAndPercent[1]}");
+                    //Console.WriteLine($"index 0 = {singleStockData[0]}");
+                    Console.WriteLine($"index 1 = {singleStockData[1]}");
+                    Console.WriteLine($"index 2 = {singleStockData[2]}");
+                    Console.WriteLine($"index 3 = {singleStockData[3]}");
+                    Console.WriteLine($"index 4 = {singleStockData[4]}");
+                    Console.WriteLine($"index 5 = {singleStockData[5]}");
+                    Console.WriteLine($"index 6 = {singleStockData[6]}");
+                    Console.WriteLine($"index 7 = {singleStockData[7]}");
+                    Console.WriteLine($"index 8 = {singleStockData[8]}");
+                    Console.WriteLine($"index 9 = {singleStockData[9]}");
+                    Console.WriteLine();
 
-                    Stock newStock = new Stock(symbol, percentChange, avgVolume, companyName, last,
-                        marketTime, open, high, low, yearWeekHigh, yearWeekLow);
+                    Stock newStock = new Stock(stockSymbolAndPercent[0], stockSymbolAndPercent[1], singleStockData[1], singleStockData[2],
+                        singleStockData[3] + singleStockData[4], singleStockData[5], singleStockData[6], singleStockData[7],
+                        singleStockData[8], singleStockData[9]);
+                    Console.WriteLine($"The new stock {newStock.Symbol} has been created");
 
-                   
+                    listOfAllStocks.Add(newStock);
                     Database.AddStockInfoIntoDatabase(newStock);
-                    Console.WriteLine($"{newStock.CompanyName} added to database");
+                    Console.WriteLine();
                 }
-                
-
             }
             catch (NoSuchElementException e)
             {
@@ -110,47 +123,18 @@ namespace Scraper
                 throw e;
             }
 
+            driver.Quit();
+            return listOfAllStocks;
         }
 
-        public static void DisplayStockInfoToConsole()
+        public static void DisplayStockInfoToConsole(List<IWebElement> tableRows)
         {
             //foreach (var item in stockInfo)
             foreach(var item in tableRows)
             {
                 Console.WriteLine(" " + item.Text + "\t\t");
-                //Console.WriteLine(" " + item + "\t\t");
             }
 
-        }
-
-        /*
-        public static List<Stock> GetListOfStocksToSendToDB()
-        {
-            List<Stock> stocksList = new List<Stock>();
-
-            foreach (var row in tableRows)
-            {
-                string[] individualStockData = row.Text.Split(' ');
-
-                Stock newStock = new Stock(individualStockData[0], individualStockData[1], individualStockData[2], individualStockData[3], individualStockData[4],
-                    individualStockData[5], individualStockData[6], individualStockData[7], individualStockData[8], individualStockData[9], individualStockData[10]);
-               
-                stocksList.Add(newStock);
-                Console.WriteLine($"{newStock.Symbol} added to stock list");
-                
-                
-                Console.WriteLine($"{newStock.Symbol}");
-                Console.WriteLine($"{newStock.PercentChange}");
-                Console.WriteLine($"{newStock.AvgVolume}");
-                Console.WriteLine($"{newStock.CompanyName}");
-                        
-            }
-
-            return stocksList;
-            //Database.AddStockInfoIntoDatabase(stocksList);
-
-        }
-        */
-
+        }   
     }
 }
