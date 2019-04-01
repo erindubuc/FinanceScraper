@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Scraper
 {
     public class Stock
-    {  
+    {
         public string Symbol { get; set; }
         public string PercentChange { get; set; }
         public string AvgVolume { get; set; }
@@ -30,7 +25,7 @@ namespace Scraper
         {
             this.Symbol = symbol;
             this.PercentChange = percentChange;
-            this.AvgVolume = avgVolume;;
+            this.AvgVolume = avgVolume;
             this.LastPrice = last;
             this.MarketTime = marketTime;
             this.OpenPrice = open;

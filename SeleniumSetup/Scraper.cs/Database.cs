@@ -46,8 +46,8 @@ namespace Scraper
                 try
                 {
                     using (SqlCommand command = new SqlCommand(
-                        "INSERT INTO StockInfo VALUES(@Symbol, @PercentChange, @AvgVolume, " +
-                        "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow)", connection))
+                        "INSERT INTO StockInfoCurrent VALUES(@Symbol, @PercentChange, @AvgVolume, " +
+                        "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow, @Date)", connection))
                     {
                         command.Parameters.Add(new SqlParameter("Symbol", stock.Symbol));
                         command.Parameters.Add(new SqlParameter("PercentChange", stock.PercentChange));
@@ -59,6 +59,7 @@ namespace Scraper
                         command.Parameters.Add(new SqlParameter("Low", stock.LowPrice));
                         command.Parameters.Add(new SqlParameter("YearWeekHigh", stock.YearWeekHigh));
                         command.Parameters.Add(new SqlParameter("YearWeekLow", stock.YearWeekLow));
+                        command.Parameters.Add(new SqlParameter("Date", DateTime.Now));
                         command.ExecuteNonQuery();
                         Console.WriteLine($"{stock.Symbol} stock successfully added");
                     }
