@@ -67,11 +67,13 @@ namespace Scraper
                     }
 
                     Console.WriteLine("The database has been successfully updated.");
+
                     connection.Close();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("Values could not be inserted into database");
+
                     throw e;
                 }
             }
@@ -90,22 +92,8 @@ namespace Scraper
                     using (SqlCommand command = new SqlCommand(
                         "INSERT INTO HistoryOfStockInfo SELECT * FROM CurrentStockInfo", connection))
                     {
-                        /*
-                        command.Parameters.Add(new SqlParameter("Date", DateTime.Now));
-                        command.Parameters.Add(new SqlParameter("StockId", stock.StockId));
-                        command.Parameters.Add(new SqlParameter("Symbol", stock.Symbol));
-                        command.Parameters.Add(new SqlParameter("PercentChange", stock.PercentChange));
-                        command.Parameters.Add(new SqlParameter("AvgVolume", stock.AvgVolume));
-                        command.Parameters.Add(new SqlParameter("Last", stock.LastPrice));
-                        command.Parameters.Add(new SqlParameter("MarketTime", stock.MarketTime));
-                        command.Parameters.Add(new SqlParameter("Open", stock.OpenPrice));
-                        command.Parameters.Add(new SqlParameter("High", stock.HighPrice));
-                        command.Parameters.Add(new SqlParameter("Low", stock.LowPrice));
-                        command.Parameters.Add(new SqlParameter("YearWeekHigh", stock.YearWeekHigh));
-                        command.Parameters.Add(new SqlParameter("YearWeekLow", stock.YearWeekLow));
-                        */
-
                         command.ExecuteNonQuery();
+
                         Console.WriteLine($"All stocks successfully moved to History Table");
                     }
 
@@ -115,6 +103,7 @@ namespace Scraper
                 catch (Exception e)
                 {
                     Console.WriteLine("Values could not be moved into history table");
+
                     throw e;
                 }
 
@@ -123,7 +112,6 @@ namespace Scraper
                     using (SqlCommand command = new SqlCommand(
                         "DELETE FROM CurrentStockInfo", connection))
                     {
-
                         command.ExecuteNonQuery();
                         Console.WriteLine("All rows from CurrentStockInfo have been deleted");
                     }
@@ -133,6 +121,7 @@ namespace Scraper
                 catch (Exception e)
                 {
                     Console.WriteLine("Rows from CurrentStockInfo could not be deleted. " + e.Message);
+
                     throw e;
                 }
             }

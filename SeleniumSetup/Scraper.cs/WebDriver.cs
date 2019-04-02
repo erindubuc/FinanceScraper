@@ -22,9 +22,9 @@ namespace Scraper
             try
             {
                 ChromeOptions options = new ChromeOptions();
+
                 options.AddArguments("start-maximized");
 
-                // Instantiate driver object that goes to specified url
                 driver = new ChromeDriver(options);
 
                 driver.Navigate().GoToUrl(LoginUrl);
@@ -32,36 +32,38 @@ namespace Scraper
             catch (Exception e)
             {
                 Console.WriteLine("This URL can't be found. " + e.Message);
+
                 driver.Quit();
             }
 
             try
             {
-                // Driver finds login textbox, enters username, and presses enter
                 driver.FindElement(By.Id("login-username")).SendKeys(Username + Keys.Enter);
 
-                // Driver waits for browser to load password page
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             }
             catch (NoSuchElementException e)
             {
                 Console.WriteLine("Element can't be found. " + e.Message);
-                throw (e);
+
+                throw e;
             }
 
             try
             {
-                // Driver finds password textbox, enters password, and presses enter 
                 driver.FindElement(By.Id("login-passwd")).SendKeys(Password + Keys.Enter);
             }
             catch (NoSuchElementException e)
             {
                 Console.WriteLine("Element can't be found. " + e.Message);
-                throw (e);
+
+                throw e;
             }
             catch (TimeoutException ex)
             {
                 Console.WriteLine("Timeout while entering password." + ex.Message);
+
+                throw ex;
             }
 
             try
@@ -71,18 +73,18 @@ namespace Scraper
             catch (Exception e)
             {
                 Console.WriteLine("Can't find this site. " + e.Message);
-                throw (e);
+
+                throw e;
             }
 
             try
             {
-                // Locate the stock table
                 IWebElement stockTable = driver.FindElement(By.TagName("tbody"));
 
-                // Get all the rows 
                 IList<IWebElement> tableRows = new List<IWebElement>(stockTable.FindElements(By.ClassName("simpTblRow")));
 
                 ListOfAllStocks = new List<Stock>();
+
                 int stockId = 0;
 
                 Database.MoveCurrentStockInfoToHistoryOfStocksTable();
@@ -96,10 +98,8 @@ namespace Scraper
                         );
 
                     singleStockData[0] = stockSymbolAndPercent[0];
-                    //singleStockData[1] = stockSymbolAndPercent[1];
                     Console.WriteLine($"index 0 = {stockSymbolAndPercent[0]}");
                     Console.WriteLine($"index 1 = {stockSymbolAndPercent[1]}");
-                    //Console.WriteLine($"index 0 = {singleStockData[0]}");
                     Console.WriteLine($"index 1 = {singleStockData[1]}");
                     Console.WriteLine($"index 2 = {singleStockData[2]}");
                     Console.WriteLine($"index 3 = {singleStockData[3]}");
@@ -114,6 +114,7 @@ namespace Scraper
                     Stock newStock = new Stock(stockId, stockSymbolAndPercent[0], stockSymbolAndPercent[1], singleStockData[1], singleStockData[2],
                         singleStockData[3] + singleStockData[4], singleStockData[5], singleStockData[6], singleStockData[7],
                         singleStockData[8], singleStockData[9]);
+
                     Console.WriteLine($"The new stock {newStock.Symbol} has been created");
 
                     ListOfAllStocks.Add(newStock);
@@ -125,16 +126,17 @@ namespace Scraper
             catch (NoSuchElementException e)
             {
                 Console.WriteLine("Table rows can't be found. " + e.Message);
+
                 throw e;
             }
 
             driver.Quit();
+
             return ListOfAllStocks;
         }
 
         public static void DisplayStockInfoToConsole(List<IWebElement> tableRows)
         {
-            //foreach (var item in stockInfo)
             foreach(var item in tableRows)
             {
                 Console.WriteLine(" " + item.Text + "\t\t");
