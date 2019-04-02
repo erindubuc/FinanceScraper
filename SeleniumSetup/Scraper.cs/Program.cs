@@ -17,7 +17,7 @@ namespace Scraper
             User user = new User();
 
             WebDriver.DriverLoginToPortfolioAndGetStockData();
-         
+
             Console.ReadLine();
 
         }

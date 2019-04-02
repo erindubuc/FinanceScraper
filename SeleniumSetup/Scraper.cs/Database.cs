@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Scraper
 {
-    public class Database
+    public class Database : WebDriver
     {
+
         public static void OpenSqlConnection()
         {
             string connectionString = GetConnectionString();
@@ -32,7 +33,7 @@ namespace Scraper
                 + "Integrated Security=SSPI;";
         }
 
-        public static void AddStockInfoIntoDatabase(Stock stock)
+        public static void AddCurrentStockInfoIntoDatabase(Stock stock)
         {
             string connectionString = GetConnectionString();
 
@@ -46,9 +47,10 @@ namespace Scraper
                 try
                 {
                     using (SqlCommand command = new SqlCommand(
-                        "INSERT INTO StockInfoCurrent VALUES(@Symbol, @PercentChange, @AvgVolume, " +
+                        "INSERT INTO CurrentStockInfo VALUES(@StockId, @Symbol, @PercentChange, @AvgVolume, " +
                         "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow, @Date)", connection))
                     {
+                        command.Parameters.Add(new SqlParameter("StockId", stock.StockId));
                         command.Parameters.Add(new SqlParameter("Symbol", stock.Symbol));
                         command.Parameters.Add(new SqlParameter("PercentChange", stock.PercentChange));
                         command.Parameters.Add(new SqlParameter("AvgVolume", stock.AvgVolume));
@@ -74,7 +76,66 @@ namespace Scraper
                 }
             }
         }
-        
 
+        public static void MoveCurrentStockInfoToHistoryOfStocksTable()
+        {
+            string connectionString = GetConnectionString();
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(
+                        "INSERT INTO HistoryOfStockInfo SELECT * FROM CurrentStockInfo", connection))
+                    {
+                        /*
+                        command.Parameters.Add(new SqlParameter("Date", DateTime.Now));
+                        command.Parameters.Add(new SqlParameter("StockId", stock.StockId));
+                        command.Parameters.Add(new SqlParameter("Symbol", stock.Symbol));
+                        command.Parameters.Add(new SqlParameter("PercentChange", stock.PercentChange));
+                        command.Parameters.Add(new SqlParameter("AvgVolume", stock.AvgVolume));
+                        command.Parameters.Add(new SqlParameter("Last", stock.LastPrice));
+                        command.Parameters.Add(new SqlParameter("MarketTime", stock.MarketTime));
+                        command.Parameters.Add(new SqlParameter("Open", stock.OpenPrice));
+                        command.Parameters.Add(new SqlParameter("High", stock.HighPrice));
+                        command.Parameters.Add(new SqlParameter("Low", stock.LowPrice));
+                        command.Parameters.Add(new SqlParameter("YearWeekHigh", stock.YearWeekHigh));
+                        command.Parameters.Add(new SqlParameter("YearWeekLow", stock.YearWeekLow));
+                        */
+
+                        command.ExecuteNonQuery();
+                        Console.WriteLine($"All stocks successfully moved to History Table");
+                    }
+
+                    Console.WriteLine("The history table been successfully updated.");
+                    //connection.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Values could not be moved into history table");
+                    throw e;
+                }
+
+                try
+                {
+                    using (SqlCommand command = new SqlCommand(
+                        "DELETE FROM CurrentStockInfo", connection))
+                    {
+
+                        command.ExecuteNonQuery();
+                        Console.WriteLine("All rows from CurrentStockInfo have been deleted");
+                    }
+
+                    connection.Close();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Rows from CurrentStockInfo could not be deleted. " + e.Message);
+                    throw e;
+                }
+            }
+        }
     }
 }

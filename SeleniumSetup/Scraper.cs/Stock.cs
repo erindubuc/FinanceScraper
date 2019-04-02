@@ -3,6 +3,7 @@ namespace Scraper
 {
     public class Stock
     {
+        public int StockId { get; set; }
         public string Symbol { get; set; }
         public string PercentChange { get; set; }
         public string AvgVolume { get; set; }
@@ -19,10 +20,11 @@ namespace Scraper
 
         }
 
-        public Stock(string symbol, string percentChange, string avgVolume,
+        public Stock(int stockId, string symbol, string percentChange, string avgVolume,
             string last, string marketTime, string open, string high, string low,
             string yearWeekHigh, string yearWeekLow)
         {
+            this.StockId = stockId;
             this.Symbol = symbol;
             this.PercentChange = percentChange;
             this.AvgVolume = avgVolume;

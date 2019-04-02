@@ -14,7 +14,7 @@ namespace Scraper
     {
         public ChromeOptions options;
         public static IWebDriver driver;
-        public static List<Stock> listOfAllStocks;
+        public static List<Stock> ListOfAllStocks;
 
 
         public static List<Stock> DriverLoginToPortfolioAndGetStockData()
@@ -82,10 +82,14 @@ namespace Scraper
                 // Get all the rows 
                 IList<IWebElement> tableRows = new List<IWebElement>(stockTable.FindElements(By.ClassName("simpTblRow")));
 
-                listOfAllStocks = new List<Stock>();
+                ListOfAllStocks = new List<Stock>();
+                int stockId = 0;
+
+                Database.MoveCurrentStockInfoToHistoryOfStocksTable();
 
                 foreach (var row in tableRows)
                 {
+                    stockId++;
                     string[] singleStockData = row.Text.Split(' ');
                     string[] stockSymbolAndPercent = singleStockData[0].Split(new[] { "\r\n", "\r", "\n" },
                             StringSplitOptions.None
@@ -107,13 +111,14 @@ namespace Scraper
                     Console.WriteLine($"index 9 = {singleStockData[9]}");
                     Console.WriteLine();
 
-                    Stock newStock = new Stock(stockSymbolAndPercent[0], stockSymbolAndPercent[1], singleStockData[1], singleStockData[2],
+                    Stock newStock = new Stock(stockId, stockSymbolAndPercent[0], stockSymbolAndPercent[1], singleStockData[1], singleStockData[2],
                         singleStockData[3] + singleStockData[4], singleStockData[5], singleStockData[6], singleStockData[7],
                         singleStockData[8], singleStockData[9]);
                     Console.WriteLine($"The new stock {newStock.Symbol} has been created");
 
-                    listOfAllStocks.Add(newStock);
-                    Database.AddStockInfoIntoDatabase(newStock);
+                    ListOfAllStocks.Add(newStock);
+                    
+                    Database.AddCurrentStockInfoIntoDatabase(newStock);
                     Console.WriteLine();
                 }
             }
@@ -124,7 +129,7 @@ namespace Scraper
             }
 
             driver.Quit();
-            return listOfAllStocks;
+            return ListOfAllStocks;
         }
 
         public static void DisplayStockInfoToConsole(List<IWebElement> tableRows)
