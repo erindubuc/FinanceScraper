@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeleniumSetup", "SeleniumSe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scraper", "Scraper.cs\Scraper.csproj", "{FCBE5DB6-5B25-46E5-9C01-87E50D06FA80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceScraperApplication", "FinanceScraperApplication\FinanceScraperApplication.csproj", "{A28A1031-068A-439F-8A09-2E1878E8E4D7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FCBE5DB6-5B25-46E5-9C01-87E50D06FA80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCBE5DB6-5B25-46E5-9C01-87E50D06FA80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCBE5DB6-5B25-46E5-9C01-87E50D06FA80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A28A1031-068A-439F-8A09-2E1878E8E4D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A28A1031-068A-439F-8A09-2E1878E8E4D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A28A1031-068A-439F-8A09-2E1878E8E4D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A28A1031-068A-439F-8A09-2E1878E8E4D7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
