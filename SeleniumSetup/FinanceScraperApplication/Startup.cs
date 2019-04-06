@@ -52,6 +52,12 @@ namespace FinanceScraperApplication
                     options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
                 });
 
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 5001;
+            });
+
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = $"/Identity/Account/Login";
@@ -60,7 +66,8 @@ namespace FinanceScraperApplication
             });
 
             // using Microsoft.AspNetCore.Identity.UI.Services;
-            services.AddSingleton<IEmailSender, IEmailSender>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
