@@ -248,8 +248,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HistoryOfStockInfoesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="CurrentStockInfoesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -318,6 +320,16 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\CurrentStockInfoes\Create.cshtml" />
+    <Content Include="Views\CurrentStockInfoes\Delete.cshtml" />
+    <Content Include="Views\CurrentStockInfoes\Details.cshtml" />
+    <Content Include="Views\CurrentStockInfoes\Edit.cshtml" />
+    <Content Include="Views\CurrentStockInfoes\Index.cshtml" />
+    <Content Include="Views\HistoryOfStockInfoes\Create.cshtml" />
+    <Content Include="Views\HistoryOfStockInfoes\Delete.cshtml" />
+    <Content Include="Views\HistoryOfStockInfoes\Details.cshtml" />
+    <Content Include="Views\HistoryOfStockInfoes\Edit.cshtml" />
+    <Content Include="Views\HistoryOfStockInfoes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

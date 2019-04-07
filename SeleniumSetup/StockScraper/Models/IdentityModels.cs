@@ -29,5 +29,9 @@ namespace StockScraper.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<StockScraper.Models.CurrentStockInfo> CurrentStockInfoes { get; set; }
+
+        public System.Data.Entity.DbSet<StockScraper.Models.HistoryOfStockInfo> HistoryOfStockInfoes { get; set; }
     }
 }

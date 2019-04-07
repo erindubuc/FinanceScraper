@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace StockScraper.Models
 {
     public partial class CurrentStockInfo
     {
         public byte StockId { get; set; }
+
+        [Key]
         public string Symbol { get; set; }
         public string PercentChange { get; set; }
         public string AverageVolume { get; set; }
