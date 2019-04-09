@@ -1,0 +1,93 @@
+﻿@model IEnumerable<StockWebScraperApp.Models.CurrentStockInfo>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Stock_Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PercentChange)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AverageVolume)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MarketTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OpenPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HighPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LowPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearWeekHigh)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.YearWeekLow)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Stock_Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PercentChange)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AverageVolume)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MarketTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OpenPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HighPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LowPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YearWeekHigh)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.YearWeekLow)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Symbol }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Symbol }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Symbol })
+        </td>
+    </tr>
+}
+
+</table>
