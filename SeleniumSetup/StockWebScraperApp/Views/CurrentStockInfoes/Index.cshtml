@@ -12,34 +12,34 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Stock_Id)
+            @Html.DisplayNameFor(model => model.Symbol)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PercentChange)
+            % Chg
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.AverageVolume)
+            Avg. Vol.
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastPrice)
+            Last
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.MarketTime)
+            Market Time
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.OpenPrice)
+            Open
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.HighPrice)
+            High
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LowPrice)
+            Low
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.YearWeekHigh)
+            52-Wk High
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.YearWeekLow)
+            52-Wk Low
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -50,7 +50,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Stock_Id)
+            @Html.DisplayFor(modelItem => item.Symbol)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PercentChange)
