@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StockInfoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CurrentStockInfo">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Stock_Id" Type="tinyint" Nullable="false" />
+          <Property Name="Symbol" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PercentChange" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="AverageVolume" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="LastPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="MarketTime" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OpenPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="HighPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="LowPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="YearWeekHigh" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="YearWeekLow" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HistoryOfStockInfo">
+          <Key>
+            <PropertyRef Name="StockId" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="StockId" Type="tinyint" Nullable="false" />
+          <Property Name="Symbol" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="PercentChange" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="AverageVolume" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="LastPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="MarketTime" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="OpenPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="HighPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="LowPrice" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="YearWeekHigh" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="YearWeekLow" Type="varchar" MaxLength="8" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_HistoryOfStockInfo_ToTable">
+          <End Role="CurrentStockInfo" Type="Self.CurrentStockInfo" Multiplicity="1" />
+          <End Role="HistoryOfStockInfo" Type="Self.HistoryOfStockInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrentStockInfo">
+              <PropertyRef Name="Symbol" />
+            </Principal>
+            <Dependent Role="HistoryOfStockInfo">
+              <PropertyRef Name="Symbol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StockInfoModelStoreContainer">
+          <EntitySet Name="CurrentStockInfo" EntityType="Self.CurrentStockInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HistoryOfStockInfo" EntityType="Self.HistoryOfStockInfo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_HistoryOfStockInfo_ToTable" Association="Self.FK_HistoryOfStockInfo_ToTable">
+            <End Role="CurrentStockInfo" EntitySet="CurrentStockInfo" />
+            <End Role="HistoryOfStockInfo" EntitySet="HistoryOfStockInfo" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StockInfoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CurrentStockInfo">
+          <Key>
+            <PropertyRef Name="Symbol" />
+          </Key>
+          <Property Name="Stock_Id" Type="Byte" Nullable="false" />
+          <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PercentChange" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AverageVolume" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MarketTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OpenPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HighPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LowPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearWeekHigh" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearWeekLow" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="HistoryOfStockInfoes" Relationship="Self.FK_HistoryOfStockInfo_ToTable" FromRole="CurrentStockInfo" ToRole="HistoryOfStockInfo" />
+        </EntityType>
+        <EntityType Name="HistoryOfStockInfo">
+          <Key>
+            <PropertyRef Name="StockId" />
+            <PropertyRef Name="Date" />
+          </Key>
+          <Property Name="StockId" Type="Byte" Nullable="false" />
+          <Property Name="Symbol" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PercentChange" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AverageVolume" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MarketTime" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OpenPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="HighPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LowPrice" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearWeekHigh" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="YearWeekLow" Type="String" MaxLength="8" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CurrentStockInfo" Relationship="Self.FK_HistoryOfStockInfo_ToTable" FromRole="HistoryOfStockInfo" ToRole="CurrentStockInfo" />
+        </EntityType>
+        <Association Name="FK_HistoryOfStockInfo_ToTable">
+          <End Role="CurrentStockInfo" Type="Self.CurrentStockInfo" Multiplicity="1" />
+          <End Role="HistoryOfStockInfo" Type="Self.HistoryOfStockInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CurrentStockInfo">
+              <PropertyRef Name="Symbol" />
+            </Principal>
+            <Dependent Role="HistoryOfStockInfo">
+              <PropertyRef Name="Symbol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StockInfoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CurrentStockInfoes" EntityType="Self.CurrentStockInfo" />
+          <EntitySet Name="HistoryOfStockInfoes" EntityType="Self.HistoryOfStockInfo" />
+          <AssociationSet Name="FK_HistoryOfStockInfo_ToTable" Association="Self.FK_HistoryOfStockInfo_ToTable">
+            <End Role="CurrentStockInfo" EntitySet="CurrentStockInfoes" />
+            <End Role="HistoryOfStockInfo" EntitySet="HistoryOfStockInfoes" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StockInfoModelStoreContainer" CdmEntityContainer="StockInfoEntities">
+          <EntitySetMapping Name="CurrentStockInfoes">
+            <EntityTypeMapping TypeName="StockInfoModel.CurrentStockInfo">
+              <MappingFragment StoreEntitySet="CurrentStockInfo">
+                <ScalarProperty Name="Stock_Id" ColumnName="Stock_Id" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="PercentChange" ColumnName="PercentChange" />
+                <ScalarProperty Name="AverageVolume" ColumnName="AverageVolume" />
+                <ScalarProperty Name="LastPrice" ColumnName="LastPrice" />
+                <ScalarProperty Name="MarketTime" ColumnName="MarketTime" />
+                <ScalarProperty Name="OpenPrice" ColumnName="OpenPrice" />
+                <ScalarProperty Name="HighPrice" ColumnName="HighPrice" />
+                <ScalarProperty Name="LowPrice" ColumnName="LowPrice" />
+                <ScalarProperty Name="YearWeekHigh" ColumnName="YearWeekHigh" />
+                <ScalarProperty Name="YearWeekLow" ColumnName="YearWeekLow" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HistoryOfStockInfoes">
+            <EntityTypeMapping TypeName="StockInfoModel.HistoryOfStockInfo">
+              <MappingFragment StoreEntitySet="HistoryOfStockInfo">
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="Symbol" ColumnName="Symbol" />
+                <ScalarProperty Name="PercentChange" ColumnName="PercentChange" />
+                <ScalarProperty Name="AverageVolume" ColumnName="AverageVolume" />
+                <ScalarProperty Name="LastPrice" ColumnName="LastPrice" />
+                <ScalarProperty Name="MarketTime" ColumnName="MarketTime" />
+                <ScalarProperty Name="OpenPrice" ColumnName="OpenPrice" />
+                <ScalarProperty Name="HighPrice" ColumnName="HighPrice" />
+                <ScalarProperty Name="LowPrice" ColumnName="LowPrice" />
+                <ScalarProperty Name="YearWeekHigh" ColumnName="YearWeekHigh" />
+                <ScalarProperty Name="YearWeekLow" ColumnName="YearWeekLow" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
