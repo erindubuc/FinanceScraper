@@ -40,29 +40,15 @@ namespace Scraper
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                
-                /*
-                Console.WriteLine("State: {0}", connection.State);
-                Console.WriteLine("ConnectionString: {0}",
-                    connection.ConnectionString);
-                */
 
                 try
                 {
                     using (SqlCommand command = new SqlCommand(
-                        /*
-                        "INSERT INTO CurrentStockInfo VALUES(@StockId, @Symbol, @PercentChange, @AvgVolume, " +
-                        "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow, @Date) ON DUPLICATE KEY UPDATE StockId = @StockId, PercentChange = @PercentChange, AvgVolume = @AvgVolume, " +
-                            "Last = @Last, MarketTime = @MarketTime, Open = @Open, High = @High, Low = @Low, YearWeekHigh = @YearWeekHigh, " +
-                            "YearWeekLow = @YearWeekLow, Date = @Date", connection))
-                        */
                         "IF NOT EXISTS(SELECT * FROM CurrentStockInfo WHERE Symbol = @Symbol) INSERT INTO CurrentStockInfo VALUES(@StockId, @Symbol, @PercentChange, @AvgVolume, " +
                         "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow, @Date)" +
                         "ELSE UPDATE CurrentStockInfo SET Stock_Id = @StockId , PercentChange = @PercentChange, AverageVolume = @AvgVolume, " +
                             "LastPrice = @Last, MarketTime = @MarketTime, OpenPrice = @Open, HighPrice = @High, LowPrice = @Low, YearWeekHigh = @YearWeekHigh, " +
                             "YearWeekLow = @YearWeekLow, Date = @Date WHERE Symbol = @Symbol", connection))
-                    //"ELSE INSERT INTO CurrentStockInfo VALUES(@StockId, @Symbol, @PercentChange, @AvgVolume, " +
-                    // "@Last, @MarketTime, @Open, @High, @Low, @YearWeekHigh, @YearWeekLow, @Date)", connection))
 
                     {
                         command.Parameters.Add(new SqlParameter("StockId", stock.StockId));
@@ -88,8 +74,6 @@ namespace Scraper
                 catch (Exception e)
                 {
                     Console.WriteLine("Values could not be inserted into database");
-
-
                     throw e;
                 }
             }
@@ -137,28 +121,6 @@ namespace Scraper
 
                     throw e;
                 }
-                
-                /*
-                try
-                {
-                    using (SqlCommand command = new SqlCommand(
-                        "DELETE FROM CurrentStockInfo", connection))
-                        //"INSERT INTO HistoryOfStockInfo SELECT * FROM CurrentStockInfo", connection))
-                    {
-                        command.ExecuteNonQuery();
-                        Console.WriteLine("All rows from CurrentStockInfo have been deleted");
-                    }
-
-                    connection.Close();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Rows from CurrentStockInfo could not be deleted. " + e.Message);
-
-                    throw e;
-                }
-                */
-
             }
         }
     }
